@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"encoding/csv"
 	"fmt"
 	"io"
 	"os"
+	"strconv"
+	"strings"
 )
 
 func check(e error) {
@@ -37,8 +40,37 @@ func main() {
 		question_data = append(question_data, question)
 	}
 
-	for _, v := range question_data {
-		fmt.Println(v)
+	question_results := map[string]int{
+		"right": 0,
+		"wrong": 0,
 	}
 
+	// var reader bufio.Reader
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Let's start")
+	for _, v := range question_data {
+		fmt.Println(v.question)
+		text, err := reader.ReadString('\n')
+		check(err)
+		text = clear(text)
+		user_answer, err := strconv.Atoi(text)
+		check(err)
+		real_answer, err := strconv.Atoi(v.answer)
+		check(err)
+		if user_answer == real_answer {
+			question_results["right"]++
+		} else {
+			question_results["wrong"]++
+		}
+
+	}
+	fmt.Printf("Your results:\n right - %v \t wrong - %v ",
+		question_results["right"],
+		question_results["wrong"])
+
+}
+func clear(old string) (new string) {
+	new = strings.Replace(old, "\n", "", -1)
+	new = strings.ReplaceAll(new, " ", "")
+	return new
 }
