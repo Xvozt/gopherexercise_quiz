@@ -39,12 +39,14 @@ func main() {
 		question_data = append(question_data, question)
 	}
 
-	question_results := map[string]int{
-		"right": 0,
-		"wrong": 0,
-	}
+	// question_results := map[string]int{
+	// 	"right": 0,
+	// 	"wrong": 0,
+	// }
 
-	// var reader bufio.Reader
+	right := 0
+	wrong := 0
+
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Let's start")
 	for _, v := range question_data {
@@ -53,15 +55,15 @@ func main() {
 		check(err)
 		text = clear(text)
 		if strings.Compare(text, v.answer) == 0 {
-			question_results["right"]++
+			right++
 		} else {
-			question_results["wrong"]++
+			wrong++
 		}
 
 	}
 	fmt.Printf("Your results:\n right - %v \t wrong - %v ",
-		question_results["right"],
-		question_results["wrong"])
+		right,
+		wrong)
 
 }
 func clear(old string) (new string) {
