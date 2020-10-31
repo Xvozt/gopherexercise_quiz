@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -53,11 +52,7 @@ func main() {
 		text, err := reader.ReadString('\n')
 		check(err)
 		text = clear(text)
-		user_answer, err := strconv.Atoi(text)
-		check(err)
-		real_answer, err := strconv.Atoi(v.answer)
-		check(err)
-		if user_answer == real_answer {
+		if strings.Compare(text, v.answer) == 0 {
 			question_results["right"]++
 		} else {
 			question_results["wrong"]++
